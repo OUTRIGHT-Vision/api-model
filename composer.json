@@ -1,0 +1,20 @@
+{
+    "name": "outrightvision/api-model",
+    "description": "Generate Laravel-like Api Models",
+    "type": "library",
+    "require": {
+        "illuminate/support": "5.*",
+        "illuminate/contracts": "5.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0"
+    },
+    "license": "MIT License",
+    "authors": [
+        {
+            "name": "Joaquin Marcher",
+            "email": "joaquin@marcher.com.uy"
+        }
+    ],
+    "minimum-stability": "stable"
+}
