@@ -13,7 +13,8 @@
     "license": "MIT License",
     "autoload": {
         "psr-4": {
-            "OUTRIGHTVision\\": "src/"
+            "OUTRIGHTVision\\": "src/",
+            "Tests\\": "tests/"
         },
         "files": [
           "src/Support/helpers.php"

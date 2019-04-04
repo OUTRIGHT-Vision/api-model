@@ -1,9 +1,12 @@
 <?php
+namespace Tests;
 
 use Carbon\Carbon;
 use OUTRIGHTVision\ApiModel;
 use OUTRIGHTVision\Exceptions\ImmutableAttributeException;
 use Orchestra\Testbench\TestCase;
+use Tests\Fakes\City;
+use Tests\Fakes\Harbor;
 
 class ModelTest extends TestCase
 {
@@ -35,7 +38,8 @@ class ModelTest extends TestCase
     /** @test */
     public function it_should_throw_an_error_on_immutble_parameters()
     {
-        $model = new class extends ApiModel{
+        $model = new class extends ApiModel
+        {
             public function getFooAttribute()
             {
                 return 'bar';
@@ -53,7 +57,7 @@ class ModelTest extends TestCase
     {
         $model = new ApiModel(new ApiModel(['foo' => 'bar']));
         $this->assertEquals('bar', $model->foo);
-        $this->assertEquals(['foo'=>'bar'], $model->getData());
+        $this->assertEquals(['foo' => 'bar'], $model->getData());
     }
 
     /** @test */
@@ -61,13 +65,13 @@ class ModelTest extends TestCase
     {
         $model = unserialize(serialize(new ApiModel(['foo' => 'bar'])));
         $this->assertEquals('bar', $model->foo);
-        $this->assertEquals(['foo'=>'bar'], $model->getData());
+        $this->assertEquals(['foo' => 'bar'], $model->getData());
     }
 
     /** @test */
     public function it_should_be_accessed_as_an_array()
     {
-        $model =new ApiModel(['foo' => 'bar']);
+        $model = new ApiModel(['foo' => 'bar']);
         $this->assertEquals('bar', $model['foo']);
         $this->assertTrue(isset($model['foo']));
         $model['foo'] = 'baz';
@@ -102,5 +106,36 @@ class ModelTest extends TestCase
         $model = new ApiModel(['created_at' => '2019-01-01 00:00:00']);
 
         $this->assertInstanceOf(Carbon::class, $model->created_at);
+    }
+
+    /** @test */
+    public function it_should_cast_single_relationship_to_model()
+    {
+        $harbor = new Harbor([
+            'city' => [
+                'data' => [
+                    'id'   => 1,
+                    'name' => 'Montevideo',
+                ],
+            ],
+        ]);
+
+        $this->assertInstanceOf(City::class, $harbor->city);
+    }
+
+    /** @test */
+    public function it_should_property_from_relationship_should_be_accessed()
+    {
+        $harbor = new Harbor([
+            'city' => [
+                'data' => [
+                    'id'   => 1,
+                    'name' => 'Montevideo',
+                ],
+            ],
+        ]);
+
+        $this->assertEquals('Montevideo', $harbor->city->name);
+        $this->assertTrue($harbor->city->exists());
     }
 }
