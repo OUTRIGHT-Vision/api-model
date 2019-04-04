@@ -46,4 +46,36 @@ class ModelTest extends TestCase
         $this->expectException(ImmutableAttributeException::class);
         $model->foo = 'baz';
     }
+
+    /** @test */
+    public function it_should_retain_data_when_doing_copy_constructor()
+    {
+        $model = new ApiModel(new ApiModel(['foo' => 'bar']));
+        $this->assertEquals('bar', $model->foo);
+        $this->assertEquals(['foo'=>'bar'], $model->getData());
+    }
+
+    /** @test */
+    public function it_should_be_serializable_and_unserializable()
+    {
+        $model = unserialize(serialize(new ApiModel(['foo' => 'bar'])));
+        $this->assertEquals('bar', $model->foo);
+        $this->assertEquals(['foo'=>'bar'], $model->getData());
+    }
+
+    /** @test */
+    public function it_should_be_accessed_as_an_array()
+    {
+        $model =new ApiModel(['foo' => 'bar']);
+        $this->assertEquals('bar', $model['foo']);
+        $this->assertTrue(isset($model['foo']));
+        $model['foo'] = 'baz';
+
+        $this->assertEquals('baz', $model->foo);
+
+        unset($model['foo']);
+
+        $this->assertNull($model->foo);
+        $this->assertFalse($model->has('foo'));
+    }
 }
