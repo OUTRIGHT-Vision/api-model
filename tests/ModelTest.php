@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use OUTRIGHTVision\ApiModel;
 use OUTRIGHTVision\Exceptions\ImmutableAttributeException;
 use Orchestra\Testbench\TestCase;
@@ -77,5 +78,29 @@ class ModelTest extends TestCase
 
         $this->assertNull($model->foo);
         $this->assertFalse($model->has('foo'));
+    }
+
+    /** @test */
+    public function it_should_return_false_if_the_model_do_not_have_id()
+    {
+        $model = new ApiModel(['foo' => 'bar']);
+
+        $this->assertFalse($model->exists());
+    }
+
+    /** @test */
+    public function it_should_return_true_if_the_model_has_an_id()
+    {
+        $model = new ApiModel(['id' => 111222]);
+
+        $this->assertTrue($model->exists());
+    }
+
+    /** @test */
+    public function it_should_cast_dates_to_carbon_instances()
+    {
+        $model = new ApiModel(['created_at' => '2019-01-01 00:00:00']);
+
+        $this->assertInstanceOf(Carbon::class, $model->created_at);
     }
 }
