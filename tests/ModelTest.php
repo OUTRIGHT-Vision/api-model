@@ -2,8 +2,10 @@
 namespace Tests;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use OUTRIGHTVision\ApiModel;
 use OUTRIGHTVision\Exceptions\ImmutableAttributeException;
+use OUTRIGHTVision\Relationships\HasMany;
 use Orchestra\Testbench\TestCase;
 use Tests\Fakes\City;
 use Tests\Fakes\Harbor;
@@ -137,5 +139,26 @@ class ModelTest extends TestCase
 
         $this->assertEquals('Montevideo', $harbor->city->name);
         $this->assertTrue($harbor->city->exists());
+    }
+
+    /** @test */
+    public function it_should_return_a_collection_of_boats()
+    {
+        $harbor = new Harbor([
+            'boats' => [
+                'data' => [
+                    [
+                        'id'   => 1,
+                        'name' => 'Queen Mary',
+                    ],
+                    [
+                        'id'   => 2,
+                        'name' => 'Reconcho',
+                    ],
+                ],
+            ],
+        ]);
+        $this->assertInstanceOf(HasMany::class, $harbor->boats);
+        $this->assertTrue($harbor->boats->first()->exists());
     }
 }

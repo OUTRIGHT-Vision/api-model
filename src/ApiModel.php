@@ -173,6 +173,15 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
 
     public function __get($key)
     {
+        if (method_exists($this, $key) && $this->{$key}() instanceof Relationship) {
+            // We check if the relationship was already loaded.
+            if (!($this->data[$key] instanceof Relationship)) {
+                $this->data[$key] = $this->{$key}();
+            }
+
+            return $this->get($key);
+        }
+
         if (is_array($this->data) || ($this->data instanceof Collection) || ($this->data instanceof \ArrayAccess)) {
             if (array_key_exists($key, $this->data) || ($this->data instanceof Collection && $this->data->has($key))) {
                 return $this->get($key);
@@ -182,11 +191,6 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
         // Check if there is any mutator, if yes, call it.
         if (method_exists($this, 'get' . ucfirst($key) . 'Attribute')) {
             return $this->{'get' . ucfirst($key) . 'Attribute'}();
-        }
-
-        if (method_exists($this, $key) && $this->{$key}() instanceof Relationship) {
-            $this->data[$key] = $this->{$key}();
-            return $this->get($key);
         }
 
         if (method_exists(self::class, $key)) {
