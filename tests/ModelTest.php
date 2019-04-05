@@ -100,7 +100,7 @@ class ModelTest extends TestCase
     {
         $model = new ApiModel(new ApiModel(['foo' => 'bar']));
         $this->assertEquals('bar', $model->foo);
-        $this->assertEquals(['foo' => 'bar'], $model->getData());
+        $this->assertEquals(['foo' => 'bar'], $model->getAttributes());
     }
 
     /** @test */
@@ -108,7 +108,7 @@ class ModelTest extends TestCase
     {
         $model = unserialize(serialize(new ApiModel(['foo' => 'bar'])));
         $this->assertEquals('bar', $model->foo);
-        $this->assertEquals(['foo' => 'bar'], $model->getData());
+        $this->assertEquals(['foo' => 'bar'], $model->getAttributes());
     }
 
     /** @test */

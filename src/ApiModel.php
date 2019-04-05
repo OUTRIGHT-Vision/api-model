@@ -40,13 +40,13 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
 
     public function __construct($data = null)
     {
-        $this->setData($data);
+        $this->setAttributes($data);
         $this->castDates();
         $this->castApiModels();
         $this->includeDefaultRelationships();
     }
 
-    protected function setData($data = null)
+    protected function setAttributes($data = null)
     {
         if ($data instanceof ApiModel || $data instanceof Collection) {
             $this->data = $data->toArray();
@@ -100,7 +100,8 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
             }
         }
     }
-    public function getData()
+
+    public function getAttributes()
     {
         return $this->data;
     }
