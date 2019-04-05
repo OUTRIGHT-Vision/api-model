@@ -285,4 +285,29 @@ class ModelTest extends TestCase
         $this->assertInstanceOf(HasMany::class, $boat->visitedCities);
     }
 
+    /** @test */
+    public function it_should_not_eager_load_any_relationship_if_not_in_include_default_array()
+    {
+        $model = new class([
+            'visited_cities' => [
+                'data' => [
+                    [
+                        'name' => 'Montevideo',
+                    ],
+                    [
+                        'name' => 'London',
+                    ],
+                ],
+            ],
+        ]) extends ApiModel{
+            public function visitedCities()
+            {
+                return $this->hasMany(City::class, 'visited_cities');
+            }
+        };
+
+        $this->assertInstanceOf(HasMany::class, $model->visitedCities);
+        $this->assertEquals('Montevideo', $model->visitedCities->first()->name);
+    }
+
 }

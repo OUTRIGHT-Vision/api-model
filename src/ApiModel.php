@@ -195,7 +195,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
     {
         if ($relation = $this->hasRelationship($key)) {
             // We check if the relationship was already loaded.
-            if (!($this->data[$relation] instanceof Relationship)) {
+            if (!array_key_exists($relation, $this->data) || !($this->data[$relation] instanceof Relationship)) {
                 $this->data[$relation] = $this->{$relation}();
             }
 
