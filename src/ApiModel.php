@@ -12,6 +12,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use OUTRIGHTVision\Exceptions\ImmutableAttributeException;
 use OUTRIGHTVision\Relationships\Relationship;
 use OUTRIGHTVision\Relationships\Traits\HasRelationships;
@@ -158,7 +159,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
             return $this->get($key);
         }
 
-        if (method_exists(self::class, $key)) {
+        if (method_exists($this, $key)) {
             throw new ImmutableAttributeException;
         }
 
@@ -166,20 +167,37 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
             if ($this->data instanceof Collection) {
                 return $this->data->put($key, $value);
             }
+            if (array_key_exists($key, $this->data) && $this->data[$key] instanceof ApiModel) {
+                $this->data[$key] = $value;
+                $this->castApiModels();
+                return $this->data[$key];
+            }
+
             return $this->data[$key] = $value;
         }
 
     }
 
-    public function __get($key)
+    protected function hasRelationship($key):  ? string
     {
         if (method_exists($this, $key) && $this->{$key}() instanceof Relationship) {
+            return $key;
+        }
+        if (method_exists($this, Str::camel($key)) && $this->{Str::camel($key)}() instanceof Relationship) {
+            return Str::camel($key);
+        }
+
+        return null;
+    }
+    public function __get($key)
+    {
+        if ($relation = $this->hasRelationship($key)) {
             // We check if the relationship was already loaded.
-            if (!($this->data[$key] instanceof Relationship)) {
-                $this->data[$key] = $this->{$key}();
+            if (!($this->data[$relation] instanceof Relationship)) {
+                $this->data[$relation] = $this->{$relation}();
             }
 
-            return $this->get($key);
+            return $this->get($relation);
         }
 
         if (is_array($this->data) || ($this->data instanceof Collection) || ($this->data instanceof \ArrayAccess)) {
@@ -193,7 +211,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
             return $this->{'get' . ucfirst($key) . 'Attribute'}();
         }
 
-        if (method_exists(self::class, $key)) {
+        if (method_exists($this, $key)) {
             return;
         }
     }
@@ -203,7 +221,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
      * model is maked as not existing.
      * @return bool
      */
-    public function exists(): bool
+    public function exists() : bool
     {
         foreach ($this->requiredParameters as $parameter) {
             if (!$this->has($parameter)) {
