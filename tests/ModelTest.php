@@ -21,6 +21,15 @@ class ModelTest extends TestCase
     }
 
     /** @test */
+    public function it_should_work_with_invalid_values()
+    {
+        $model = new ApiModel(new \stdClass);
+        $this->assertNull($model->unexistingParameterXXX);
+        $this->assertFalse($model->has('house'));
+        $this->assertEmpty($model->toArray());
+    }
+
+    /** @test */
     public function it_should_return_valid_value_for_an_existing_parameter()
     {
         $model = new ApiModel(['foo' => 'bar']);

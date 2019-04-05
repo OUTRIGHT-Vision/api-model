@@ -2,10 +2,18 @@
 
 namespace Tests;
 
+use OUTRIGHTVision\ApiModel;
 use Orchestra\Testbench\TestCase;
 
 class HelpersTest extends TestCase
 {
+    /** @test */
+    public function is_iterable_should_work_on_all_php_versions()
+    {
+        $this->assertTrue(is_iterable([]));
+        $this->assertTrue(is_iterable(collect()));
+    }
+
     /** @test */
     public function get_data_should_return_a_single_parameter()
     {

@@ -21,3 +21,16 @@ if (!function_exists('get_data')) {
         return $result;
     }
 }
+
+if (!function_exists('is_iterable')) {
+    /**
+     * Pollyfill
+     * @param  mixed  $obj
+     * @return boolean
+     */
+    function is_iterable($obj)
+    {
+        return is_array($obj) || (is_object($obj) && ($obj instanceof \Traversable));
+    }
+
+}

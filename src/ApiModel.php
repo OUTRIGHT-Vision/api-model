@@ -51,7 +51,11 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
         if ($data instanceof ApiModel || $data instanceof Collection) {
             $this->data = $data->toArray();
         } else {
-            $this->data = $data ?? [];
+            if (is_iterable($data)) {
+                $this->data = $data;
+            } else {
+                $this->data = [];
+            }
         }
     }
 
