@@ -188,9 +188,6 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
         if (method_exists($this, $key) && $this->{$key}() instanceof Relationship) {
             return $key;
         }
-        if (method_exists($this, Str::camel($key)) && $this->{Str::camel($key)}() instanceof Relationship) {
-            return Str::camel($key);
-        }
 
         return null;
     }

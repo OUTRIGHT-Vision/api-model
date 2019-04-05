@@ -282,27 +282,7 @@ class ModelTest extends TestCase
             ],
         ]);
 
-        $this->assertInstanceOf(HasMany::class, $boat->visited_cities);
-    }
-
-    /** @test */
-    public function it_should_return_relationships_camel_cased_and_slugged()
-    {
-        $boat = new Boat([
-            'visited_cities' => [
-                'data' => [
-                    [
-                        'name' => 'Montevideo',
-                    ],
-                    [
-                        'name' => 'London',
-                    ],
-                ],
-            ],
-        ]);
-
-        $this->assertInstanceOf(HasMany::class, $boat->visited_cities);
         $this->assertInstanceOf(HasMany::class, $boat->visitedCities);
-        $this->assertSame($boat->visited_cities, $boat->visitedCities);
     }
+
 }
