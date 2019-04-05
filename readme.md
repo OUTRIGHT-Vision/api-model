@@ -3,6 +3,9 @@
 # Laravel-like Api Models
 This library allows you to cast any api response into Laravel-like Models.
 
+# Disclaimer
+The library is still under development, feel free to open pull requests or suggest any changes.
+
 ## Installation
 1. Add to your composer file with: `composer require outrightvision/api-model`
 2. Ready to use.
