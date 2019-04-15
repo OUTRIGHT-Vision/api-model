@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests;
 
 use Carbon\Carbon;
@@ -12,7 +13,6 @@ use Tests\Fakes\Harbor;
 
 class ModelTest extends TestCase
 {
-
     /** @test */
     public function it_should_return_null_for_unexisting_parameters()
     {
@@ -23,7 +23,7 @@ class ModelTest extends TestCase
     /** @test */
     public function it_should_work_with_invalid_values()
     {
-        $model = new ApiModel(new \stdClass);
+        $model = new ApiModel(new \stdClass());
         $this->assertNull($model->unexistingParameterXXX);
         $this->assertFalse($model->has('house'));
         $this->assertEmpty($model->toArray());
@@ -49,8 +49,7 @@ class ModelTest extends TestCase
     /** @test */
     public function it_should_throw_an_error_on_immutble_parameters()
     {
-        $model = new class extends ApiModel
-        {
+        $model = new class() extends ApiModel {
             public function getFooAttribute()
             {
                 return 'bar';
@@ -66,8 +65,7 @@ class ModelTest extends TestCase
     /** @test */
     public function it_should_throw_an_error_on_immutble_methods()
     {
-        $model = new class extends ApiModel
-        {
+        $model = new class() extends ApiModel {
             public function fakeMethod(): string
             {
                 return 'I return a string';
@@ -83,8 +81,7 @@ class ModelTest extends TestCase
     /** @test */
     public function it_should_return_null_getting_value_on_defined_methods()
     {
-        $model = new class extends ApiModel
-        {
+        $model = new class() extends ApiModel {
             public function fakeMethod(): string
             {
                 return 'I return a string';
@@ -288,18 +285,7 @@ class ModelTest extends TestCase
     /** @test */
     public function it_should_not_eager_load_any_relationship_if_not_in_include_default_array()
     {
-        $model = new class([
-            'visited_cities' => [
-                'data' => [
-                    [
-                        'name' => 'Montevideo',
-                    ],
-                    [
-                        'name' => 'London',
-                    ],
-                ],
-            ],
-        ]) extends ApiModel{
+        $model = new class(['visited_cities' => ['data' => [['name' => 'Montevideo'], ['name' => 'London']]]]) extends ApiModel {
             public function visitedCities()
             {
                 return $this->hasMany(City::class, 'visited_cities');
@@ -309,5 +295,4 @@ class ModelTest extends TestCase
         $this->assertInstanceOf(HasMany::class, $model->visitedCities);
         $this->assertEquals('Montevideo', $model->visitedCities->first()->name);
     }
-
 }

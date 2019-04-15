@@ -6,5 +6,4 @@ use OUTRIGHTVision\ApiModel;
 
 class City extends ApiModel
 {
-
 }

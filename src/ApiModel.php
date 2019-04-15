@@ -3,7 +3,7 @@
  * Created by Joaquín Marcher.
  * User: jmarcher
  * Date: 02/10/2017
- * Time: 15:39
+ * Time: 15:39.
  */
 
 namespace OUTRIGHTVision;
@@ -12,14 +12,12 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use OUTRIGHTVision\Exceptions\ImmutableAttributeException;
 use OUTRIGHTVision\Relationships\Relationship;
 use OUTRIGHTVision\Relationships\Traits\HasRelationships;
 
 /**
- * Mapped model from the an API Response
- * @package SLCore\Models
+ * Mapped model from the an API Response.
  */
 class ApiModel implements \Serializable, \ArrayAccess, Arrayable
 {
@@ -48,7 +46,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
 
     protected function setAttributes($data = null)
     {
-        if ($data instanceof ApiModel || $data instanceof Collection) {
+        if ($data instanceof self || $data instanceof Collection) {
             $this->data = $data->toArray();
         } else {
             if (is_iterable($data)) {
@@ -73,7 +71,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
         foreach ($this->cast_model as $key => $keyToCast) {
             $class = self::class;
             if (is_string($key)) {
-                $class     = $keyToCast;
+                $class = $keyToCast;
                 $keyToCast = $key;
             }
             if (array_key_exists($keyToCast, $this->data)) {
@@ -110,6 +108,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
     {
         return serialize($this->data);
     }
+
     public function unserialize($data)
     {
         $this->data = unserialize($data);
@@ -145,6 +144,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
         if (is_array($this->data) || ($this->data instanceof Collection) || ($this->data instanceof \ArrayAccess)) {
             return array_key_exists($key, $this->data);
         }
+
         return false;
     }
 
@@ -152,8 +152,8 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
     {
 
         // Check if there is any mutator, if yes, throw error
-        if (method_exists($this, 'get' . ucfirst($key) . 'Attribute')) {
-            throw new ImmutableAttributeException;
+        if (method_exists($this, 'get'.ucfirst($key).'Attribute')) {
+            throw new ImmutableAttributeException();
         }
 
         if (method_exists($this, $key) && $this->{$key}() instanceof Relationship) {
@@ -161,26 +161,27 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
 
             // Refresh relationship
             $this->data[$key] = $this->{$key}();
+
             return $this->get($key);
         }
 
         if (method_exists($this, $key)) {
-            throw new ImmutableAttributeException;
+            throw new ImmutableAttributeException();
         }
 
         if (is_array($this->data) || ($this->data instanceof Collection) || ($this->data instanceof \ArrayAccess)) {
             if ($this->data instanceof Collection) {
                 return $this->data->put($key, $value);
             }
-            if (array_key_exists($key, $this->data) && $this->data[$key] instanceof ApiModel) {
+            if (array_key_exists($key, $this->data) && $this->data[$key] instanceof self) {
                 $this->data[$key] = $value;
                 $this->castApiModels();
+
                 return $this->data[$key];
             }
 
             return $this->data[$key] = $value;
         }
-
     }
 
     protected function hasRelationship($key):  ? string
@@ -191,6 +192,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
 
         return null;
     }
+
     public function __get($key)
     {
         if ($relation = $this->hasRelationship($key)) {
@@ -209,8 +211,8 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
         }
 
         // Check if there is any mutator, if yes, call it.
-        if (method_exists($this, 'get' . ucfirst($key) . 'Attribute')) {
-            return $this->{'get' . ucfirst($key) . 'Attribute'}();
+        if (method_exists($this, 'get'.ucfirst($key).'Attribute')) {
+            return $this->{'get'.ucfirst($key).'Attribute'}();
         }
 
         if (method_exists($this, $key)) {
@@ -221,6 +223,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
     /**
      * If any of the required parameter do not exist, the
      * model is maked as not existing.
+     *
      * @return bool
      */
     public function exists() : bool
@@ -230,6 +233,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
                 return false;
             }
         }
+
         return true;
     }
 
