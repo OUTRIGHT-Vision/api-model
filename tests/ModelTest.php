@@ -210,6 +210,22 @@ class ModelTest extends TestCase
 
         $this->assertEquals('Montevideo', $harbor->city->name);
         $this->assertTrue($harbor->city->exists());
+    }    
+
+    /** @test */
+    public function it_should_property_from_relationship_should_be_accessed_double()
+    {
+        $harbor = new Harbor([
+            'city' => [
+                'data' => [
+                    'id'   => 1,
+                    'name' => 'Montevideo',
+                ],
+            ],
+        ]);
+
+        $this->assertEquals('Montevideo', $harbor->lastCity->name);
+        $this->assertTrue($harbor->lastCity->exists());
     }
 
     /** @test */

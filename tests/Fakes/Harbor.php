@@ -14,4 +14,9 @@ class Harbor extends ApiModel
     {
         return $this->belongsTo(City::class, 'city');
     }
+
+    public function lastCity()
+    {
+        return $this->hasOne(City::class, 'city');
+    }
 }
