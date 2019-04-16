@@ -1,4 +1,5 @@
 <?php
+
 namespace OUTRIGHTVision\Relationships;
 
 use Illuminate\Support\Collection;

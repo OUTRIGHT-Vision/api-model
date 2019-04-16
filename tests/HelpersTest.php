@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use OUTRIGHTVision\ApiModel;
 use Orchestra\Testbench\TestCase;
 
 class HelpersTest extends TestCase

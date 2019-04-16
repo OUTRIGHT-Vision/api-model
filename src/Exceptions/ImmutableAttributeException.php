@@ -2,6 +2,6 @@
 
 namespace OUTRIGHTVision\Exceptions;
 
-class ImmutableAttributeException extends \Exception{
-    
+class ImmutableAttributeException extends \Exception
+{
 }
