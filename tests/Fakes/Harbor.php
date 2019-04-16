@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Fakes;
 
 use OUTRIGHTVision\ApiModel;

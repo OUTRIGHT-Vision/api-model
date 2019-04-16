@@ -2,6 +2,6 @@
 
 namespace OUTRIGHTVision\Relationships;
 
-class BelongsTo extends HasOne{
-
+class BelongsTo extends HasOne
+{
 }

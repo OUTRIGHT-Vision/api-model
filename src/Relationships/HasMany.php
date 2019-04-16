@@ -1,8 +1,7 @@
 <?php
-namespace OUTRIGHTVision\Relationships;
 
+namespace OUTRIGHTVision\Relationships;
 
 class HasMany extends Relationship
 {
-
 }

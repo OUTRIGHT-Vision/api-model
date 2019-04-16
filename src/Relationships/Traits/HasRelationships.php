@@ -1,7 +1,7 @@
 <?php
+
 namespace OUTRIGHTVision\Relationships\Traits;
 
-use OUTRIGHTVision\ApiModel;
 use OUTRIGHTVision\Relationships\BelongsTo;
 use OUTRIGHTVision\Relationships\HasMany;
 use OUTRIGHTVision\Relationships\HasOne;
@@ -13,7 +13,7 @@ trait HasRelationships
         // We include the name
         $this->relationships[] = debug_backtrace()[1]['function'];
 
-        return new HasMany(collect($this->get($field . '.data', $this->get($field)))->map(function ($entity) use ($class) {
+        return new HasMany(collect($this->get($field.'.data', $this->get($field)))->map(function ($entity) use ($class) {
             return new $class($entity);
         }));
     }
@@ -23,8 +23,8 @@ trait HasRelationships
         // We include the name
         $this->relationships[] = debug_backtrace()[1]['function'];
 
-        $result = new HasOne(new $class($this->get($field . '.data', $this->get($field))));
-        
+        $result = new HasOne(new $class($this->get($field.'.data', $this->get($field))));
+
         return $result->setRelateClassQualifiedName($class);
     }
 
@@ -33,7 +33,7 @@ trait HasRelationships
         // We include the name
         $this->relationships[] = debug_backtrace()[1]['function'];
 
-        $result = new BelongsTo(new $class($this->get($field . '.data', $this->get($field))));
+        $result = new BelongsTo(new $class($this->get($field.'.data', $this->get($field))));
 
         return $result->setRelateClassQualifiedName($class);
     }
