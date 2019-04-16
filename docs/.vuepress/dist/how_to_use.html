@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Creating your first model | OUTRIGHTVision Api Models</title>
+    <meta name="description" content="Just like Laravel Eloquent but from Api Calls">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.3e1d0bd1.css" as="style"><link rel="preload" href="/assets/js/app.e5588cb1.js" as="script"><link rel="preload" href="/assets/js/5.6a4eaa12.js" as="script"><link rel="prefetch" href="/assets/js/2.d8f505d4.js"><link rel="prefetch" href="/assets/js/3.186ec0a2.js"><link rel="prefetch" href="/assets/js/4.9dca0ac7.js"><link rel="prefetch" href="/assets/js/6.9ab6715b.js"><link rel="prefetch" href="/assets/js/7.6a562633.js"><link rel="prefetch" href="/assets/js/8.dde3f876.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.3e1d0bd1.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">OUTRIGHTVision Api Models</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><!---->  <ul class="sidebar-links"><li><div class="sidebar-group first"><p class="sidebar-heading"><span>Getting started</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/installation.html" class="sidebar-link">Installation</a></li></ul></div></li><li><div class="sidebar-group"><p class="sidebar-heading open"><span>First steps</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/how_to_use.html" class="active sidebar-link">Creating your first model</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/how_to_use.html#single-relationships" class="sidebar-link">Single Relationships</a></li></ul></li><li><a href="/relationships.html" class="sidebar-link">Relationships</a></li></ul></div></li><li><div class="sidebar-group"><p class="sidebar-heading"><span>Advanced</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/advanced.html" class="sidebar-link">Advanced stuff</a></li></ul></div></li></ul> </div> <div class="page"> <div class="content"><h1 id="creating-your-first-model"><a href="#creating-your-first-model" aria-hidden="true" class="header-anchor">#</a> Creating your first model</h1> <p>First we need to make an API Call (API Call library is under development and will be published soon)</p> <p>Lets fake some API calls and asume that the result is a fake user as the following:</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+    <span class="token property">&quot;data&quot;</span> <span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;id&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Leanne Graham&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;username&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Bret&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;email&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Sincere@april.biz&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;address&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token property">&quot;street&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Kulas Light&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;suite&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Apt. 556&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;city&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Gwenborough&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;zipcode&quot;</span><span class="token operator">:</span> <span class="token string">&quot;92998-3874&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;geo&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">&quot;lat&quot;</span><span class="token operator">:</span> <span class="token string">&quot;-37.3159&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;lng&quot;</span><span class="token operator">:</span> <span class="token string">&quot;81.1496&quot;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;phone&quot;</span><span class="token operator">:</span> <span class="token string">&quot;1-770-736-8031 x56442&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;website&quot;</span><span class="token operator">:</span> <span class="token string">&quot;hildegard.org&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;company&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token property">&quot;name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Romaguera-Crona&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;catchPhrase&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Multi-layered client-server neural-net&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;bs&quot;</span><span class="token operator">:</span> <span class="token string">&quot;harness real-time e-markets&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;geo&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">&quot;lat&quot;</span><span class="token operator">:</span> <span class="token string">&quot;-35.3159&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;lng&quot;</span><span class="token operator">:</span> <span class="token string">&quot;80.1496&quot;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;posts&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">&quot;data&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">&quot;id&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+                <span class="token property">&quot;title&quot;</span><span class="token operator">:</span> <span class="token string">&quot;sunt aut facere repellat provident occaecati excepturi optio reprehenderit&quot;</span><span class="token punctuation">,</span>
+                <span class="token property">&quot;body&quot;</span><span class="token operator">:</span> <span class="token string">&quot;quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto&quot;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">&quot;id&quot;</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+                <span class="token property">&quot;title&quot;</span><span class="token operator">:</span> <span class="token string">&quot;qui est esse&quot;</span><span class="token punctuation">,</span>
+                <span class="token property">&quot;body&quot;</span><span class="token operator">:</span> <span class="token string">&quot;est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla&quot;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">&quot;id&quot;</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+                <span class="token property">&quot;title&quot;</span><span class="token operator">:</span> <span class="token string">&quot;ea molestias quasi exercitationem repellat qui ipsa sit aut&quot;</span><span class="token punctuation">,</span>
+                <span class="token property">&quot;body&quot;</span><span class="token operator">:</span> <span class="token string">&quot;et iusto sed quo iure\nvoluptatem occaecati omnis eligendi aut ad\nvoluptatem doloribus vel accusantium quis pariatur\nmolestiae porro eius odio et labore et velit aut&quot;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>To create our first Api Model we need to create a new file <code>User.php</code> like this:</p> <div class="language-php extra-class"><pre class="language-php"><code><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Api<span class="token punctuation">\</span>Models</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">OUTRIGHTVision<span class="token punctuation">\</span>ApiModel</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">User</span> <span class="token keyword">extends</span> <span class="token class-name">ApiModel</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+</span></code></pre></div><p>Just like that we can access any parameter inside the User json object as a PHP object:</p> <div class="language-PHP extra-class"><pre class="language-php"><code><span class="token variable">$user</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">User</span><span class="token punctuation">(</span><span class="token variable">$jsonResponse</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">echo</span> <span class="token variable">$user</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">id</span><span class="token punctuation">;</span> <span class="token comment">// Result: 1</span>
+<span class="token keyword">echo</span> <span class="token variable">$user</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">website</span><span class="token punctuation">;</span> <span class="token comment">// Result: hildegard.org</span>
+<span class="token keyword">echo</span> <span class="token variable">$user</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">company</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// Result: Romaguera-Crona</span>
+</code></pre></div><h2 id="single-relationships"><a href="#single-relationships" aria-hidden="true" class="header-anchor">#</a> Single Relationships</h2> <p>But that does not look pretty, the <code>User</code>s company should also be an Api Model, this can be done really easy:</p> <p>We need to let know the <code>User</code> model that it needs to cast the <code>company</code> parameter to an Api model:</p> <p>Add or extend the following <code>protected</code> attribute:</p> <div class="language-php extra-class"><pre class="language-php"><code><span class="token keyword">class</span> <span class="token class-name">User</span> <span class="token keyword">extends</span> <span class="token class-name">ApiModel</span><span class="token punctuation">{</span>
+    <span class="token keyword">protected</span> <span class="token variable">$cast_model</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+        <span class="token single-quoted-string string">'company'</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>After we do this we can access the attributes from a company just like this:</p> <div class="language-php extra-class"><pre class="language-php"><code><span class="token keyword">echo</span> <span class="token variable">$user</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">company</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">name</span><span class="token punctuation">;</span> <span class="token comment">// Result: Romaguera-Crona</span>
+<span class="token keyword">echo</span> <span class="token variable">$user</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">company</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">geo</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'lat'</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// Result: -35.3159</span>
+</code></pre></div><p>Continue reading the next chapter to know more on how to cast parameters to custom Api Models.</p></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/installation.html" class="prev">
+          Installation
+        </a></span> <span class="next"><a href="/relationships.html">
+          Relationships
+        </a>
+        →
+      </span></p></div> </div> <!----></div></div>
+    <script src="/assets/js/app.e5588cb1.js" defer></script><script src="/assets/js/5.6a4eaa12.js" defer></script>
+  </body>
+</html>

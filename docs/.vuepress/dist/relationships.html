@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Single Relationships | OUTRIGHTVision Api Models</title>
+    <meta name="description" content="Just like Laravel Eloquent but from Api Calls">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.3e1d0bd1.css" as="style"><link rel="preload" href="/assets/js/app.e5588cb1.js" as="script"><link rel="preload" href="/assets/js/7.6a562633.js" as="script"><link rel="prefetch" href="/assets/js/2.d8f505d4.js"><link rel="prefetch" href="/assets/js/3.186ec0a2.js"><link rel="prefetch" href="/assets/js/4.9dca0ac7.js"><link rel="prefetch" href="/assets/js/5.6a4eaa12.js"><link rel="prefetch" href="/assets/js/6.9ab6715b.js"><link rel="prefetch" href="/assets/js/8.dde3f876.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.3e1d0bd1.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">OUTRIGHTVision Api Models</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><!---->  <ul class="sidebar-links"><li><div class="sidebar-group first"><p class="sidebar-heading"><span>Getting started</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/installation.html" class="sidebar-link">Installation</a></li></ul></div></li><li><div class="sidebar-group"><p class="sidebar-heading open"><span>First steps</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/how_to_use.html" class="sidebar-link">Creating your first model</a></li><li><a href="/relationships.html" class="active sidebar-link">Relationships</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/relationships.html#single-relationships" class="sidebar-link">Single Relationships</a></li><li class="sidebar-sub-header"><a href="/relationships.html#hasmany-relationship" class="sidebar-link">HasMany Relationship</a></li></ul></li></ul></div></li><li><div class="sidebar-group"><p class="sidebar-heading"><span>Advanced</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/advanced.html" class="sidebar-link">Advanced stuff</a></li></ul></div></li></ul> </div> <div class="page"> <div class="content"><h2 id="single-relationships"><a href="#single-relationships" aria-hidden="true" class="header-anchor">#</a> Single Relationships</h2> <p>In the first model we created we casted the <code>company</code> parameter to an Api Model, but wouldn't it be nicer if we could just create a <code>Company</code> Api Model and cast the parameter to a <code>Company</code> model instead of to a generic Api Model?</p> <p>Well it is pretty easy to do, first we need to create a new model just like the one we created earlier:</p> <div class="language-php extra-class"><pre class="language-php"><code><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Api<span class="token punctuation">\</span>Models</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">OUTRIGHTVision<span class="token punctuation">\</span>ApiModel</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Company</span> <span class="token keyword">extends</span> <span class="token class-name">ApiModel</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+</span></code></pre></div><p>Now we need to let know the <code>User</code> model that it needs to cast the <code>company</code> parameter to a <code>Company</code> model:</p> <p>Add or extend the following <code>protected</code> attribute:</p> <div class="language-php extra-class"><pre class="language-php"><code><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Api<span class="token punctuation">\</span>Models</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">OUTRIGHTVision<span class="token punctuation">\</span>ApiModel</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">App<span class="token punctuation">\</span>Api<span class="token punctuation">\</span>Models<span class="token punctuation">\</span>Company</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">User</span> <span class="token keyword">extends</span> <span class="token class-name">ApiModel</span><span class="token punctuation">{</span>
+    <span class="token keyword">protected</span> <span class="token variable">$cast_model</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+        <span class="token single-quoted-string string">'company'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> Company<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</span></code></pre></div><p>And just like this we can now access the user's <code>Company</code> as a PHP object like this:</p> <div class="language-php extra-class"><pre class="language-php"><code><span class="token keyword">echo</span> <span class="token variable">$user</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">company</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">name</span><span class="token punctuation">;</span> <span class="token comment">// Result: Romaguera-Crona</span>
+<span class="token keyword">echo</span> <span class="token variable">$user</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">company</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">geo</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'lat'</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// Result: -35.3159</span>
+</code></pre></div><p>But this is not much different from the case we had before. Well it isn't but now we can tell the <code>Company</code> model to cast the <code>geo</code> parameter to a <code>Geo</code> Api Model</p> <p>Lets asume we already created a <code>Geo</code> Api Model file, now we need to add or extend the <code>$cast_model</code> attribute in <code>Company</code> like this:</p> <div class="language-php extra-class"><pre class="language-php"><code><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Api<span class="token punctuation">\</span>Models</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">OUTRIGHTVision<span class="token punctuation">\</span>ApiModel</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">App<span class="token punctuation">\</span>Api<span class="token punctuation">\</span>Models<span class="token punctuation">\</span>Company</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">User</span> <span class="token keyword">extends</span> <span class="token class-name">ApiModel</span><span class="token punctuation">{</span>
+    <span class="token keyword">protected</span> <span class="token variable">$cast_model</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+        <span class="token single-quoted-string string">'company'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> Company<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</span></code></pre></div><p>Now we have a fully Laravel-like Eloquent model we can do beautifull things like this:</p> <div class="language-php extra-class"><pre class="language-php"><code><span class="token keyword">echo</span> <span class="token variable">$user</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">company</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">name</span><span class="token punctuation">;</span> <span class="token comment">// Result: Romaguera-Crona</span>
+<span class="token keyword">echo</span> <span class="token variable">$user</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">company</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">geo</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">lat</span><span class="token punctuation">;</span> <span class="token comment">// Result: -35.3159</span>
+<span class="token keyword">echo</span> <span class="token variable">$user</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">company</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">geo</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">randomParameter</span><span class="token punctuation">;</span> <span class="token comment">// Result: null</span>
+</code></pre></div><h2 id="hasmany-relationship"><a href="#hasmany-relationship" aria-hidden="true" class="header-anchor">#</a> HasMany Relationship</h2> <p>We can also cast a collection of objects like this:</p> <p>Lets asume we created a <code>Post</code> Api model:</p> <div class="language-php extra-class"><pre class="language-php"><code><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Api<span class="token punctuation">\</span>Models</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">OUTRIGHTVision<span class="token punctuation">\</span>ApiModel</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">App<span class="token punctuation">\</span>Api<span class="token punctuation">\</span>Models<span class="token punctuation">\</span>Company</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">App<span class="token punctuation">\</span>Api<span class="token punctuation">\</span>Models<span class="token punctuation">\</span>Post</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">User</span> <span class="token keyword">extends</span> <span class="token class-name">ApiModel</span><span class="token punctuation">{</span>
+    <span class="token keyword">protected</span> <span class="token variable">$cast_model</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+        <span class="token single-quoted-string string">'company'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> Company<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">posts</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">hasMany</span><span class="token punctuation">(</span>Post<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'posts'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</span></code></pre></div><p>Relationships are lazy loaded, that means we do not waste server memory creating a collection if the parameter is not used.
+The first time we do <code>$user-&gt;posts</code> is where we create the collection and return it.</p> <p>If you want to eager load a relationship you can add or extend the <code>included_default</code> protected parameter.</p></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/how_to_use.html" class="prev">
+          Creating your first model
+        </a></span> <span class="next"><a href="/advanced.html">
+          Advanced stuff
+        </a>
+        →
+      </span></p></div> </div> <!----></div></div>
+    <script src="/assets/js/app.e5588cb1.js" defer></script><script src="/assets/js/7.6a562633.js" defer></script>
+  </body>
+</html>

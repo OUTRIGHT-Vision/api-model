@@ -12,9 +12,9 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use OUTRIGHTVision\Exceptions\ImmutableAttributeException;
 use OUTRIGHTVision\Relationships\Relationship;
+use OUTRIGHTVision\Relationships\SingleRelationship;
 use OUTRIGHTVision\Relationships\Traits\HasRelationships;
 
 /**
@@ -137,7 +137,13 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
 
     public function get($key, $default = null)
     {
-        return get_data($this->data, $key, $default);
+        $data = get_data($this->data, $key, $default);
+        if($data instanceof SingleRelationship){
+            // We need to reconstruct the relationship
+            $className = $data->getRelatedClassQualifiedName();
+            $data = new $className($data);
+        }
+        return $data;
     }
 
     public function has($key)
@@ -156,7 +162,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
             throw new ImmutableAttributeException;
         }
 
-        if (method_exists($this, $key) && $this->{$key}() instanceof Relationship) {
+        if (method_exists($this, $key) && ($this->{$key}() instanceof Relationship || $this->{$key}() instanceof SingleRelationship)) {
             $this->data[$key] = $value;
 
             // Refresh relationship
@@ -185,7 +191,8 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
 
     protected function hasRelationship($key):  ? string
     {
-        if (method_exists($this, $key) && $this->{$key}() instanceof Relationship) {
+        if (method_exists($this, $key)
+            && ($this->{$key}() instanceof Relationship || $this->{$key}() instanceof SingleRelationship)) {
             return $key;
         }
 
@@ -195,7 +202,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
     {
         if ($relation = $this->hasRelationship($key)) {
             // We check if the relationship was already loaded.
-            if (!array_key_exists($relation, $this->data) || !($this->data[$relation] instanceof Relationship)) {
+            if (!array_key_exists($relation, $this->relationships)) {
                 $this->data[$relation] = $this->{$relation}();
             }
 
