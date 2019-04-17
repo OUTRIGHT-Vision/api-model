@@ -47,7 +47,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
 
     protected function setAttributes($data = null)
     {
-        if ($data instanceof self || $data instanceof Collection) {
+        if ($data instanceof self) {
             $this->data = $data->toArray();
         } else {
             if (is_iterable($data)) {
@@ -72,7 +72,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
         foreach ($this->cast_model as $key => $keyToCast) {
             $class = self::class;
             if (is_string($key)) {
-                $class = $keyToCast;
+                $class     = $keyToCast;
                 $keyToCast = $key;
             }
             if (array_key_exists($keyToCast, $this->data)) {
@@ -141,7 +141,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
         if ($data instanceof SingleRelationship) {
             // We need to reconstruct the relationship
             $className = $data->getRelatedClassQualifiedName();
-            $data = new $className($data);
+            $data      = new $className($data);
         }
 
         return $data;
@@ -149,7 +149,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
 
     public function has($key)
     {
-        if (is_array($this->data) || ($this->data instanceof Collection) || ($this->data instanceof \ArrayAccess)) {
+        if (is_array($this->data) || ($this->data instanceof \ArrayAccess)) {
             return array_key_exists($key, $this->data);
         }
 
@@ -160,7 +160,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
     {
 
         // Check if there is any mutator, if yes, throw error
-        if (method_exists($this, 'get'.ucfirst($key).'Attribute')) {
+        if (method_exists($this, 'get' . ucfirst($key) . 'Attribute')) {
             throw new ImmutableAttributeException();
         }
 
@@ -177,10 +177,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
             throw new ImmutableAttributeException();
         }
 
-        if (is_array($this->data) || ($this->data instanceof Collection) || ($this->data instanceof \ArrayAccess)) {
-            if ($this->data instanceof Collection) {
-                return $this->data->put($key, $value);
-            }
+        if (is_array($this->data) || ($this->data instanceof \ArrayAccess)) {
             if (array_key_exists($key, $this->data) && $this->data[$key] instanceof self) {
                 $this->data[$key] = $value;
                 $this->castApiModels();
@@ -220,8 +217,8 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
         }
 
         // Check if there is any mutator, if yes, call it.
-        if (method_exists($this, 'get'.ucfirst($key).'Attribute')) {
-            return $this->{'get'.ucfirst($key).'Attribute'}();
+        if (method_exists($this, 'get' . ucfirst($key) . 'Attribute')) {
+            return $this->{'get' . ucfirst($key) . 'Attribute'}();
         }
 
         if (method_exists($this, $key)) {
@@ -253,10 +250,6 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
      */
     public function toArray()
     {
-        if (is_array($this->data) || $this->data instanceof \ArrayAccess) {
-            return (array) $this->data;
-        }
-
-        return $this->data->toArray();
+        return (array) $this->data;
     }
 }
