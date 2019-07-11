@@ -72,7 +72,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
         foreach ($this->cast_model as $key => $keyToCast) {
             $class = self::class;
             if (is_string($key)) {
-                $class     = $keyToCast;
+                $class = $keyToCast;
                 $keyToCast = $key;
             }
             if (array_key_exists($keyToCast, $this->data)) {
@@ -141,7 +141,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
         if ($data instanceof SingleRelationship) {
             // We need to reconstruct the relationship
             $className = $data->getRelatedClassQualifiedName();
-            $data      = new $className($data);
+            $data = new $className($data);
         }
 
         return $data;
@@ -156,7 +156,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
     {
 
         // Check if there is any mutator, if yes, throw error
-        if (method_exists($this, 'get' . ucfirst($key) . 'Attribute')) {
+        if (method_exists($this, 'get'.ucfirst($key).'Attribute')) {
             throw new ImmutableAttributeException();
         }
 
@@ -213,8 +213,8 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
         }
 
         // Check if there is any mutator, if yes, call it.
-        if (method_exists($this, 'get' . ucfirst($key) . 'Attribute')) {
-            return $this->{'get' . ucfirst($key) . 'Attribute'}();
+        if (method_exists($this, 'get'.ucfirst($key).'Attribute')) {
+            return $this->{'get'.ucfirst($key).'Attribute'}();
         }
 
         if (method_exists($this, $key)) {
