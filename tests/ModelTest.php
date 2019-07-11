@@ -209,7 +209,7 @@ class ModelTest extends TestCase
         $this->assertTrue($harbor->city->exists());
     }
 
-     /** @test */
+    /** @test */
     public function it_should_property_from_relationship_should_be_accessed_as_object()
     {
         $harbor = new Harbor([
