@@ -16,13 +16,14 @@ use OUTRIGHTVision\Exceptions\ImmutableAttributeException;
 use OUTRIGHTVision\Relationships\Relationship;
 use OUTRIGHTVision\Relationships\SingleRelationship;
 use OUTRIGHTVision\Relationships\Traits\HasRelationships;
+use OUTRIGHTVision\Support\ApiCalls;
 
 /**
  * Mapped model from the an API Response.
  */
 class ApiModel implements \Serializable, \ArrayAccess, Arrayable
 {
-    use HasRelationships;
+    use HasRelationships, ApiCalls;
     protected $data;
 
     protected $cast_model = [];
@@ -246,4 +247,10 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
     {
         return (array) $this->data;
     }
+
+    public function find(int $id): self
+    {
+        return new self($this->getApiObject($id));
+    }
+
 }
