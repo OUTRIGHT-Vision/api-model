@@ -252,5 +252,4 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
     {
         return new self($this->getApiObject($id));
     }
-
 }
