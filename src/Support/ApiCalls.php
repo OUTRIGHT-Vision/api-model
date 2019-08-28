@@ -12,8 +12,9 @@ trait ApiCalls
         $response = Zttp::withHeaders($this->getApiHeaders())
             ->get($this->getApiEndpoint(['id' => $id]), $this->getApiParameters());
         if (!$response->isOk()) {
-            throw new ApiException;
+            throw new ApiException();
         }
+
         return $response->json();
     }
 
@@ -27,7 +28,7 @@ trait ApiCalls
         $replacements = collect($replacements)->mapWithKeys(function ($value, $key) {
             return ["{{$key}}" => $value];
         })->toArray();
-        
+
         return strtr($this->endpoint, $replacements);
     }
 
