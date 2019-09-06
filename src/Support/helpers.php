@@ -16,7 +16,7 @@ if (!function_exists('get_data')) {
      */
     function get_data($data, string $key, $default = null, $nullableString = true)
     {
-        $key    = str_replace('->', '.data.', $key);
+        $key = str_replace('->', '.data.', $key);
         $result = Arr::get($data, $key, $default);
         if (!$nullableString) {
             $result = filled($result) ? $result : $default;
