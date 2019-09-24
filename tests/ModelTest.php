@@ -49,7 +49,8 @@ class ModelTest extends TestCase
     /** @test */
     public function it_should_throw_an_error_on_immutble_parameters()
     {
-        $model = new class() extends ApiModel {
+        $model = new class() extends ApiModel
+        {
             public function getFooAttribute()
             {
                 return 'bar';
@@ -65,7 +66,8 @@ class ModelTest extends TestCase
     /** @test */
     public function it_should_throw_an_error_on_immutble_methods()
     {
-        $model = new class() extends ApiModel {
+        $model = new class() extends ApiModel
+        {
             public function fakeMethod(): string
             {
                 return 'I return a string';
@@ -81,7 +83,8 @@ class ModelTest extends TestCase
     /** @test */
     public function it_should_return_null_getting_value_on_defined_methods()
     {
-        $model = new class() extends ApiModel {
+        $model = new class() extends ApiModel
+        {
             public function fakeMethod(): string
             {
                 return 'I return a string';
@@ -154,7 +157,7 @@ class ModelTest extends TestCase
         $harbor = new Harbor([
             'city' => [
                 'data' => [
-                    'id'   => 1,
+                    'id' => 1,
                     'name' => 'Montevideo',
                 ],
             ],
@@ -164,11 +167,26 @@ class ModelTest extends TestCase
     }
 
     /** @test */
+    public function it_should_cast_single_relationship_to_model_and_preserve_attributes()
+    {
+        $harbor = new Harbor([
+            'city' => [
+                'data' => [
+                    'id' => 1,
+                    'name' => 'Montevideo',
+                ],
+            ],
+        ]);
+
+        $this->assertEquals('Montevideo', $harbor->city->name);
+    }
+
+    /** @test */
     public function it_should_cast_single_relationship_to_model_event_without_data()
     {
         $harbor = new Harbor([
             'city' => [
-                'id'   => 1,
+                'id' => 1,
                 'name' => 'Montevideo',
             ],
         ]);
@@ -181,7 +199,7 @@ class ModelTest extends TestCase
     {
         $harbor = new Harbor([
             'city' => [
-                'id'   => 1,
+                'id' => 1,
                 'name' => 'Montevideo',
             ],
         ]);
@@ -199,7 +217,7 @@ class ModelTest extends TestCase
         $harbor = new Harbor([
             'city' => [
                 'data' => [
-                    'id'   => 1,
+                    'id' => 1,
                     'name' => 'Montevideo',
                 ],
             ],
@@ -215,7 +233,7 @@ class ModelTest extends TestCase
         $harbor = new Harbor([
             'city' => [
                 'data' => [
-                    'id'   => 1,
+                    'id' => 1,
                     'name' => 'Montevideo',
                 ],
             ],
@@ -231,7 +249,7 @@ class ModelTest extends TestCase
         $harbor = new Harbor([
             'city' => [
                 'data' => [
-                    'id'   => 1,
+                    'id' => 1,
                     'name' => 'Montevideo',
                 ],
             ],
@@ -242,17 +260,37 @@ class ModelTest extends TestCase
     }
 
     /** @test */
+    public function it_should_preserve_attributes_for_child_properties()
+    {
+        $harbor = new Harbor([
+            'city' => [
+                'data' => [
+                    'id' => 1,
+                    'name' => 'Montevideo',
+                    'partner_city' => [
+                        'id' => 2,
+                        'name' => 'Berlin',
+                    ],
+                ],
+            ],
+        ]);
+
+        $this->assertEquals('Berlin', $harbor->lastCity->partnerCity->name);
+        $this->assertTrue($harbor->lastCity->partnerCity->exists());
+    }
+
+    /** @test */
     public function it_should_return_a_collection_of_boats()
     {
         $harbor = new Harbor([
             'boats' => [
                 'data' => [
                     [
-                        'id'   => 1,
+                        'id' => 1,
                         'name' => 'Queen Mary',
                     ],
                     [
-                        'id'   => 2,
+                        'id' => 2,
                         'name' => 'Reconcho',
                     ],
                 ],
@@ -269,11 +307,11 @@ class ModelTest extends TestCase
             'boats' => [
                 'data' => [
                     [
-                        'id'   => 1,
+                        'id' => 1,
                         'name' => 'Queen Mary',
                     ],
                     [
-                        'id'   => 2,
+                        'id' => 2,
                         'name' => 'Reconcho',
                     ],
                 ],
@@ -303,6 +341,10 @@ class ModelTest extends TestCase
                 'data' => [
                     [
                         'name' => 'Montevideo',
+                        'partner_city' => [
+                            'id' => 2,
+                            'name' => 'Berlin',
+                        ],
                     ],
                     [
                         'name' => 'London',
@@ -312,12 +354,14 @@ class ModelTest extends TestCase
         ]);
 
         $this->assertInstanceOf(HasMany::class, $boat->visitedCities);
+        $this->assertEquals('Berlin', $boat->visitedCities->first()->partnerCity->name);
     }
 
     /** @test */
     public function it_should_not_eager_load_any_relationship_if_not_in_include_default_array()
     {
-        $model = new class(['visited_cities' => ['data' => [['name' => 'Montevideo'], ['name' => 'London']]]]) extends ApiModel {
+        $model = new class(['visited_cities' => ['data' => [['name' => 'Montevideo'], ['name' => 'London']]]]) extends ApiModel
+        {
             public function visitedCities()
             {
                 return $this->hasMany(City::class, 'visited_cities');
