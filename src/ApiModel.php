@@ -183,7 +183,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
         }
     }
 
-    protected function hasRelationship($key):  ? string
+    protected function hasRelationship($key): ?string
     {
         if (method_exists($this, $key)
             && ($this->{$key}() instanceof Relationship || $this->{$key}() instanceof SingleRelationship)) {
@@ -226,7 +226,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
      *
      * @return bool
      */
-    public function exists() : bool
+    public function exists(): bool
     {
         foreach ($this->requiredParameters as $parameter) {
             if (!$this->has($parameter)) {
