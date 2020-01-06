@@ -15,7 +15,7 @@ class SingleRelationship extends ApiModel
         return $this;
     }
 
-    public function getRelatedClassQualifiedName():string
+    public function getRelatedClassQualifiedName(): string
     {
         return $this->relatedClassQualifiedName;
     }
