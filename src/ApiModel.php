@@ -73,7 +73,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
                 $class = $keyToCast;
                 $keyToCast = $key;
             }
-            if ($this-has($keyToCast)) {
+            if ($this->has($keyToCast)) {
                 if ($this->data[$keyToCast] !== null && array_key_exists('data', $this->data[$keyToCast])) {
                     $this->data[$keyToCast] = new $class($this->data[$keyToCast]['data']);
                     continue;
