@@ -6,8 +6,8 @@
         "laravel", "eloquent", "API", "models"
     ],
     "require": {
-        "illuminate/support": "^5.0|^6.0",
-        "illuminate/contracts": "^5.0|^6.0"
+        "illuminate/support": "^5.0|^6.0|^7.0",
+        "illuminate/contracts": "^5.0|^6.0|^7.0"
     },
     "require-dev": {
         "php": "^7.1.3",
