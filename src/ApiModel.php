@@ -147,7 +147,7 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
 
     public function has($key)
     {
-        if(is_object($this->data)){
+        if (is_object($this->data)) {
             return property_exists($this->data, $key);
         }
 
