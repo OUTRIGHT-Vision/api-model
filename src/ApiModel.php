@@ -10,6 +10,7 @@ namespace OUTRIGHTVision;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use OUTRIGHTVision\Exceptions\ImmutableAttributeException;
@@ -89,7 +90,16 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
     protected function castDates()
     {
         foreach ($this->cast_dates as $keyToCast) {
+            if (Str::startsWith($keyToCast, '@nullable:')) {
+                $nullable = true;
+            } else {
+                $nullable = false;
+            }
             if ($this->has($keyToCast)) {
+                if($this->data[$keyToCast] === null && $nullable){
+                    continue;
+                }
+                
                 $this->data[$keyToCast] = Carbon::parse($this->data[$keyToCast]);
                 if ($this->date_timezone !== null) {
                     $this->data[$keyToCast]->setTimezone($this->date_timezone);

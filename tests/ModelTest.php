@@ -149,6 +149,15 @@ class ModelTest extends TestCase
     }
 
     /** @test */
+    public function it_should_leave_castable_dates_as_null_if_specified()
+    {
+        $model = new \Tests\Fakes\DateCaster(['created_at' => null, 'do_not_cast_this_date' => null]);
+
+        $this->assertInstanceOf(Carbon::class, $model->created_at);
+        $this->assertNull($model->do_not_cast_this_date);
+    }
+
+    /** @test */
     public function it_should_cast_single_relationship_to_model()
     {
         $harbor = new Harbor([
