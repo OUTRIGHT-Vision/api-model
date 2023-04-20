@@ -21,7 +21,7 @@ use OUTRIGHTVision\Relationships\Traits\HasRelationships;
 /**
  * Mapped model from the an API Response.
  */
-class ApiModel implements \Serializable, \ArrayAccess, Arrayable
+class ApiModel implements \ArrayAccess, Arrayable
 {
     use HasRelationships;
     protected $data;
@@ -113,12 +113,12 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
         return $this->data;
     }
 
-    public function serialize()
+    public function __serialize()
     {
         return serialize($this->data);
     }
 
-    public function unserialize($data)
+    public function __unserialize($data)
     {
         $this->data = unserialize($data);
     }
