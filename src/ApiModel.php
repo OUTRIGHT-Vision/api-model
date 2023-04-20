@@ -123,22 +123,22 @@ class ApiModel implements \Serializable, \ArrayAccess, Arrayable
         $this->data = unserialize($data);
     }
 
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return array_key_exists($offset, $this->data);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return get_data($this->data, $offset);
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         Arr::set($this->data, $offset, $value);
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         Arr::forget($this->data, $offset);
     }
