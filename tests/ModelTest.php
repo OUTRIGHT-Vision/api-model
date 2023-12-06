@@ -100,6 +100,7 @@ class ModelTest extends TestCase
         $this->assertEquals(['foo' => 'bar'], $model->getAttributes());
     }
 
+
     /** @test */
     public function it_should_be_serializable_and_unserializable()
     {
@@ -146,6 +147,16 @@ class ModelTest extends TestCase
         $model = new ApiModel(['created_at' => '2019-01-01 00:00:00']);
 
         $this->assertInstanceOf(Carbon::class, $model->created_at);
+    }
+
+    /** @test */
+    public function it_should_cast_dates_to_carbon_instances_with_correct_timezone()
+    {
+        $model = new ApiModel(['created_at' => '2019-01-01 00:00:00']);
+
+        $this->assertSame('Europe/Rome', (string) $model->created_at->tz);
+
+        $this->assertSame('2019-01-01 01:00:00', $model->created_at->toDateTimeString());
     }
 
     /** @test */

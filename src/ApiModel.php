@@ -100,7 +100,7 @@ class ApiModel implements \ArrayAccess, Arrayable
                     continue;
                 }
                 
-                $this->data[$keyToCast] = Carbon::parse($this->data[$keyToCast]);
+                $this->data[$keyToCast] = Carbon::parse($this->data[$keyToCast], 'UTC');
                 if ($this->date_timezone !== null) {
                     $this->data[$keyToCast]->setTimezone($this->date_timezone);
                 }
@@ -113,14 +113,14 @@ class ApiModel implements \ArrayAccess, Arrayable
         return $this->data;
     }
 
-    public function __serialize()
+    public function __serialize():array
     {
-        return serialize($this->data);
+        return $this->getAttributes();
     }
 
-    public function __unserialize($data)
+    public function __unserialize(array $data):void
     {
-        $this->data = unserialize($data);
+        $this->setAttributes($data);
     }
 
     public function offsetExists(mixed $offset): bool
