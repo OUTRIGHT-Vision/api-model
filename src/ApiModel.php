@@ -99,7 +99,7 @@ class ApiModel implements \ArrayAccess, Arrayable
                 if($this->data[$keyToCast] === null && $nullable){
                     continue;
                 }
-                
+
                 $this->data[$keyToCast] = Carbon::parse($this->data[$keyToCast], 'UTC');
                 if ($this->date_timezone !== null) {
                     $this->data[$keyToCast]->setTimezone($this->date_timezone);
@@ -168,8 +168,11 @@ class ApiModel implements \ArrayAccess, Arrayable
     {
 
         // Check if there is any mutator, if yes, throw error
-        if (method_exists($this, 'get'.ucfirst($key).'Attribute')) {
-            throw new ImmutableAttributeException();
+        if (
+            method_exists($this, 'get'.ucfirst($key).'Attribute')
+            || method_exists($this, 'get'.Str::studly($key).'Attribute')
+        ) {
+            throw new ImmutableAttributeException;
         }
 
         if (method_exists($this, $key) && ($this->{$key}() instanceof Relationship || $this->{$key}() instanceof SingleRelationship)) {
@@ -224,10 +227,15 @@ class ApiModel implements \ArrayAccess, Arrayable
             }
         }
 
-        // Check if there is any mutator, if yes, call it.
+        // Check if there is any mutator, if so, call it.
         if (method_exists($this, 'get'.ucfirst($key).'Attribute')) {
             return $this->{'get'.ucfirst($key).'Attribute'}();
         }
+        // Check for other mutators that may have different names
+        if (method_exists($this, 'get'.Str::studly($key).'Attribute')) {
+            return $this->{'get'.Str::studly($key).'Attribute'}();
+        }
+
 
         if (method_exists($this, $key)) {
             return;

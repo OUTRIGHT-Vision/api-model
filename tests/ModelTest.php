@@ -63,6 +63,23 @@ class ModelTest extends TestCase
     }
 
     /** @test */
+    public function it_should_throw_an_error_on_immutble_parameters_seconds()
+    {
+        $model = new class() extends ApiModel {
+            public function getFooBarAttribute()
+            {
+                return 'bar';
+            }
+        };
+        $this->assertEquals('bar', $model->foo_bar);
+        $this->assertEquals([], $model->toArray());
+
+        $this->expectException(ImmutableAttributeException::class);
+        $model->foo_bar = 'baz';
+    }
+
+
+    /** @test */
     public function it_should_throw_an_error_on_immutble_methods()
     {
         $model = new class() extends ApiModel {
